@@ -1,8 +1,11 @@
 from urllib.request import urlopen as ureq
 from bs4 import BeautifulSoup as soup
-import itertools
+
 urlsepeda = "https://www.olx.co.id/items/q-frame-sepeda"
-result={}
+namafile="sepeda.csv"
+f=open(namafile,"w")
+header="nama,harga,asal\n"
+f.write(header)
 client = ureq(urlsepeda)
 sepeda_html = client.read()
 page_soup = soup(sepeda_html, "html.parser")
@@ -18,9 +21,10 @@ tempat = awaltempat[0].text
 
 for (a,b,c)in zip(nama,awalprice,awaltempat):
     print(a.text,b.text,c.text)
+    f.write(a.text.replace(",", "|") + "," + b.text.replace(",", "|") + "," + c.text.replace(",", "|"))
 
 
 
 
 
-
+f.close()
